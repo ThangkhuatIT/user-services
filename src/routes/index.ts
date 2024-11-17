@@ -9,8 +9,8 @@ const route = Router();
 // route.get("/swagger/v1/swagger.json", (req.))
 route.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-route.use("/api/v1/users", userRoute);
+route.use("api/us/v1/users", userRoute);
 
-route.use("/api/v1/users/me", meRoute);
+route.use("api/us/v1/me", meRoute);
 
 export default route;

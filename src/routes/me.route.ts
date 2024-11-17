@@ -11,9 +11,14 @@ const meRoute = Router();
 meRoute.patch(
   "/",
   checkJwt,
-  validateUpdateProfile(),
+  validateUpdateProfile,
   checkValidationResult,
   wrapCallbacksInTryCatch(meController.handleUpdateUserProfile)
+);
+meRoute.get(
+  "/",
+  checkJwt,
+  wrapCallbacksInTryCatch(meController.handleGetUser)
 );
 
 export default meRoute;

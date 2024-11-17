@@ -4,6 +4,9 @@ declare namespace Express {
             sub: string;
             email: string;
             role: string;
+        },
+        params:{
+            [key: string]: string
         }
     }
 }

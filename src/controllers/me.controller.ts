@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { updateUserProfile } from "../services/user.service";
+import { getUser, updateUserProfile } from "../services/user.service";
 
 /**
  * @openapi
@@ -12,9 +12,12 @@ import { updateUserProfile } from "../services/user.service";
  */
 export async function handleUpdateUserProfile(req: Request, res: Response) {
   const id = req.user.sub;
-  const { phoneNumber, email, name } = req.body;
+  const user = await updateUserProfile(id, req.body);
 
-  const user = await updateUserProfile(id, { phoneNumber, email, name });
-
-  res.status(200).send(user);
+  return res.status(200).json(user);
+}
+export async function handleGetUser(req: Request, res: Response) {
+  const id = req.user.sub;
+  const user = await getUser(id);
+  return res.status(200).json(user);
 }

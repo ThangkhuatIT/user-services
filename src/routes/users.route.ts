@@ -5,14 +5,20 @@ import checkRole from "../middlewares/check-role.middleware";
 import checkJwt from "../middlewares/check-jwt.middleware";
 
 const userRoute = Router();
-userRoute.post(
-    "/",
-    wrapCallbacksInTryCatch(userController.handleCreateUser)
+userRoute.get(
+  "/public-profile:id",
+  wrapCallbacksInTryCatch(userController.handleGetUserProfile)
+);
+userRoute.patch(
+  "/:id",
+  checkJwt,
+  checkRole("ADMIN"),
+  wrapCallbacksInTryCatch(userController.handleGetUserProfile)
 );
 userRoute.get(
-    "/",
-    checkJwt,
-    checkRole('Admin'),
-    wrapCallbacksInTryCatch(userController.handleGetUsers)
+  "/:id",
+  checkJwt,
+  checkRole("ADMIN"),
+  wrapCallbacksInTryCatch(userController.handleGetUserByAdmin)
 );
 export default userRoute;
