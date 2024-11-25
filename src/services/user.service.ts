@@ -52,13 +52,39 @@ export async function getUserProfile(id: string): Promise<IUser | null> {
   return user;
 }
 
-export async function lockUser(id: string, locked:boolean) {
-
+export async function lockUser(id: string, locked: boolean) {
   let user = await User.findOne({ _id: id });
 
   if (!user) {
     throw new ApiError(404, "user not found");
   }
-  user.locked = locked
+  user.locked = locked;
   await user.save();
+}
+export async function getUsers(
+  q: any,
+  locked: any,
+  skip: any,
+  limit: any
+) {
+  let query = {} as any;
+  if (q) {
+    query.name = { $regex: q, $options: "i" };
+  }
+  if (locked !== undefined) {
+    query.isLocked = locked;
+  }
+  const users = await User.find(query).skip(Number(skip)).limit(Number(limit));
+  const totalUsers = await User.countDocuments(query);
+  const totalPages = Math.ceil(totalUsers / limit);
+
+  if (!users) {
+    return 0;
+  }
+  return {
+    users,
+    totalUsers,
+    totalPages,
+    currentPage: Math.floor(skip / limit) + 1,
+  };
 }

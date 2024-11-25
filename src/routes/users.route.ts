@@ -21,4 +21,10 @@ userRoute.get(
   checkRole("ADMIN"),
   wrapCallbacksInTryCatch(userController.handleGetUserByAdmin)
 );
+userRoute.get(
+  "/",
+  checkJwt,
+  checkRole("ADMIN"),
+  wrapCallbacksInTryCatch(userController.handleGetUsers)
+);
 export default userRoute;
